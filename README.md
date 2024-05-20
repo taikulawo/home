@@ -17,22 +17,6 @@ git submodule update --remote --recursive --init
 chmod -R 700 .ssh/
 ```
 
-### 使用 token clone private repo
-
-go to https://github.com/settings/personal-access-tokens/new 申请 token 作为后续 git 登陆的密码。
-token只开放 home/ 读写权限，一年有效期
-
-```bash
-# 先去home，避免在其他目录误删除
-cd ~
-git init
-git remote add origin https://taikulawo:<MYTOKEN>@github.com/taikulawo/home.git
-git fetch origin master
-git checkout origin/master -ft
-git submodule update --remote --recursive --init
-chmod -R 700 .ssh/
-```
-
 ## 初始化
 
 ```bash
@@ -52,13 +36,6 @@ gitui
 git diffhome
 ```
 ## 其他选项
-
-### .ssh
-
-```bash
-ln -sr ./.private-home/.ssh .ssh/
-chmod -R 700 .ssh/
-```
 
 ### gitui
 
