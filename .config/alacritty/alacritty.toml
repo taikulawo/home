@@ -1,0 +1,14 @@
+[font]
+size = 16.0
+
+[window]
+opacity = 1
+
+# [shell]
+# program = "/opt/homebrew/bin/fish"
+
+[keyboard]
+# bindings = [
+#     { key = "Tab", mods = "Control", chars = "\u001b[27;5;9~" },
+#     { key = "Tab", mods = "Control|Shift", chars = "\u001b[27;6;9~" },
+# ]

@@ -1,0 +1,19 @@
+/*
+!.gitignore
+
+!alacritty/
+!fish/
+!scripts/
+!tmux/
+!README.md
+!zellij
+!nvim
+nvim/.netrwhist
+!go/
+go/*
+!go/env
+fish/conf.d/rustup.fish
+
+# allow a user to permanently assign a value to a variable across all the user's running fish shells.
+fish/fish_variables
+fish/fishd.*

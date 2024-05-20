@@ -1,0 +1,6 @@
+# echo $(go env GOENV)
+# Mac 配置 放在/Users/<Username>/Library/Application Support/go/env
+# Linux 在 ～/.config/go/env
+# GOPRIVATE=code.devops.xiaohongshu.com
+GO111MODULE=on
+GOPROXY=https://goproxy.cn,direct
