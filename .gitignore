@@ -19,5 +19,4 @@
 !.cargo/config.toml
 !.bash_setup.sh
 .ssh/
-!.private-home
 !.gdbinit
