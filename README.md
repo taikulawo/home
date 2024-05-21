@@ -16,6 +16,18 @@ git checkout origin/master -ft
 git submodule update --remote --recursive --init
 chmod -R 700 .ssh/
 ```
+### HTTPS clone
+
+```bash
+# 先去home，避免在其他目录误删除
+cd ~
+git init
+git remote add origin https://github.com/taikulawo/home.git
+git fetch origin master
+git checkout origin/master -ft
+git submodule update --remote --recursive --init
+chmod -R 700 .ssh/
+```
 
 ## 初始化
 
