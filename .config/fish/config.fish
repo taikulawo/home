@@ -155,3 +155,6 @@ function up-or-search -d "Depending on cursor position and current mode, either 
             commandline -f up-line
     end
 end
+if type -q flamegraph
+flamegraph --completions fish > $fish_complete_path[1]/flamegraph.fish
+end
