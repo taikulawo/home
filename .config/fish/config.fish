@@ -1,3 +1,7 @@
+# if not set -q RUNNING and (not test (count $argv -gt 0) > /dev/null)
+#     exec sh ~/.env_variables "$(whereis -bq fish)"
+# end
+# set -e RUNNING
 if status is-interactive
     # Commands to run in interactive sessions can go here
     function fish_prompt --description 'Write out the prompt'
@@ -33,19 +37,6 @@ if status is-interactive
     end
 end
 
-# function export
-# # fish 的 $PATH 是 list，不是 : 分割的字符串
-# # export PATH=$PATH 会报错
-# # 如果对export有硬需求，用bash
-#     if [ $argv ] 
-#         set var (printenv $argv | cut -f1 -d=)
-#         set val (printenv $argv | cut -f2 -d=)
-#         set -g -x $var $val
-#     else
-#         echo 'export var=value'
-#     end
-# end
-
 alias t="tmux"
 alias ll="ls -alF"
 alias hs 'history --merge'  # read and merge history from disk
@@ -53,8 +44,6 @@ alias hs 'history --merge'  # read and merge history from disk
 set -l checknvm (nvm list lts)
 if test -n "$checknvm"
     nvm use lts -s
-# else
-#     nvm install lts
 end
 
 function use_proxy
@@ -155,6 +144,9 @@ function up-or-search -d "Depending on cursor position and current mode, either 
             commandline -f up-line
     end
 end
+
 if type -q flamegraph
 flamegraph --completions fish > $fish_complete_path[1]/flamegraph.fish
 end
+
+# source ~/.env_variables

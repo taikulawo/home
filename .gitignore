@@ -20,3 +20,4 @@
 !.bash_setup.sh
 .ssh/
 !.gdbinit
+!.env_variables
