@@ -11,7 +11,7 @@
 [core]
 	editor = ~/.config/scripts/git-editor.sh
 	# editor = code --wait
-	autocrlf = false
+	autocrlf = input
 	eol = lf
 [alias]
 	diffhome = !gitui -w $HOME -d $HOME/.git
@@ -28,5 +28,5 @@
 	default = current
 [init]
 	defaultBranch = master
-[credential]
-	helper = store
+# [credential]
+# 	helper = store
