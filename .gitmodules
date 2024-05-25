@@ -1,5 +1,0 @@
-[submodule "neovim-config"]
-	path = .config/nvim
-	url = https://github.com/taikulawo/neovim-config
-	branch = master
-	ignore = dirty
