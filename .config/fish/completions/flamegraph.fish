@@ -8,6 +8,7 @@ complete -c flamegraph -l notes -d 'Set embedded notes in SVG' -r
 complete -c flamegraph -l min-width -d 'Omit functions smaller than <FLOAT> pixels' -r
 complete -c flamegraph -l image-width -d 'Image width in pixels' -r
 complete -c flamegraph -l palette -d 'Color palette' -r -f -a "{aqua	'',blue	'',green	'',hot	'',io	'',java	'',js	'',mem	'',orange	'',perl	'',python	'',purple	'',red	'',rust	'',wakeup	'',yellow	''}"
+complete -c flamegraph -l skip-after -d 'Cut off stack frames below <FUNCTION>; may be repeated' -r
 complete -c flamegraph -l post-process -d 'Run a command to process the folded stacks, taking the input from stdin and outputting to stdout' -r
 complete -c flamegraph -l perfdata -r -F
 complete -c flamegraph -s v -l verbose -d 'Print extra output to help debug problems'
