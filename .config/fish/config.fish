@@ -116,34 +116,34 @@ set LC_CTYPE en_US.UTF-8
 set LC_ALL en_US.UTF-8
 set RUSTUP_DIST_SERVER https://rsproxy.cn
 set RUSTUP_UPDATE_ROOT https://rsproxy.cn/rustup
+# 暂时关闭，等到找到 https://github.com/fish-shell/fish-shell/discussions/10545 的解决办法
+# function up-or-search -d "Depending on cursor position and current mode, either search backward or move up one line"
+#     # If we are already in search mode, continue
+#     if commandline --search-mode
+#         commandline -f history-search-backward
+#         return
+#     end
 
-function up-or-search -d "Depending on cursor position and current mode, either search backward or move up one line"
-    # If we are already in search mode, continue
-    if commandline --search-mode
-        commandline -f history-search-backward
-        return
-    end
+#     # If we are navigating the pager, then up always navigates
+#     if commandline --paging-mode
+#         commandline -f up-line
+#         return
+#     end
 
-    # If we are navigating the pager, then up always navigates
-    if commandline --paging-mode
-        commandline -f up-line
-        return
-    end
+#     # We are not already in search mode.
+#     # If we are on the top line, start search mode,
+#     # otherwise move up
+#     set lineno (commandline -L)
 
-    # We are not already in search mode.
-    # If we are on the top line, start search mode,
-    # otherwise move up
-    set lineno (commandline -L)
+#     switch $lineno
+#         case 1
+#             commandline -f history-search-backward
+#             history merge # <-- ADDED THIS
 
-    switch $lineno
-        case 1
-            commandline -f history-search-backward
-            history merge # <-- ADDED THIS
-
-        case '*'
-            commandline -f up-line
-    end
-end
+#         case '*'
+#             commandline -f up-line
+#     end
+# end
 
 if type -q flamegraph
 flamegraph --completions fish > $fish_complete_path[1]/flamegraph.fish
