@@ -12,6 +12,7 @@ cd ~
 git init
 git remote add origin git@github.com:taikulawo/home.git
 git fetch origin master
+git remote update
 git checkout -b master origin/master -ft
 git submodule update --remote --recursive --init
 chmod -R 700 .ssh/
@@ -24,6 +25,7 @@ cd ~
 git init
 git remote add origin https://github.com/taikulawo/home.git
 git fetch origin master
+git remote update
 git checkout -b master origin/master -ft
 git submodule update --remote --recursive --init
 chmod -R 700 .ssh/
