@@ -119,7 +119,7 @@ plugins {
 //   - true (default)
 //   - false
 //
-pane_frames false
+pane_frames true
 
 // Choose what to do when zellij receives SIGTERM, SIGINT, SIGQUIT or SIGHUP
 // eg. when terminal window with an active zellij session is closed
@@ -199,10 +199,11 @@ pane_frames false
 // The name of the default layout to load on startup
 // Default: "default"
 //
-default_layout "disable-status-bar"
+default_layout "compact"
+// default_layout "disable-status-bar"
 
 // Choose the mode that zellij uses when starting up.
-// Default: normal
+// Default normal
 //
 // default_mode "locked"
 
@@ -213,7 +214,7 @@ default_layout "disable-status-bar"
 //   - true (default)
 //   - false
 //
-// mouse_mode false
+mouse_mode true
 
 // Configure the scroll back buffer size
 // This is the number of lines zellij stores for each pane in the scroll back

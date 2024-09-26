@@ -10,3 +10,7 @@ fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 . "$HOME/.cargo/env"
+
+# for bcfile in ~/.zsh_completion.d/* ; do
+#   . $bcfile
+# done
