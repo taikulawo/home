@@ -8,3 +8,5 @@ else
     # windows?
 fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+. "$HOME/.cargo/env"
