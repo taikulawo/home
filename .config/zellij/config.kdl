@@ -41,10 +41,10 @@ keybinds clear-defaults=true {
         bind "," { SwitchToMode "RenameTab"; TabNameInput 0; }
 
         // Moving between panes
-        bind "Left" { MoveFocus "Left"; SwitchToMode "Normal"; }
-        bind "Right" { MoveFocus "Right"; SwitchToMode "Normal"; }
-        bind "Down" { MoveFocus "Down"; SwitchToMode "Normal"; }
-        bind "Up" { MoveFocus "Up"; SwitchToMode "Normal"; }
+        bind "Left" { Resize "Increase Left"; }
+        bind "Right" { Resize "Increase Right"; }
+        bind "Down" { Resize "Increase Down"; }
+        bind "Up" { Resize "Increase Up"; }
         bind "h" { MoveFocus "Left"; SwitchToMode "Normal"; }
         bind "l" { MoveFocus "Right"; SwitchToMode "Normal"; }
         bind "j" { MoveFocus "Down"; SwitchToMode "Normal"; }
@@ -52,10 +52,10 @@ keybinds clear-defaults=true {
         // Renaming panes
         bind "." { SwitchToMode "RenamePane"; PaneNameInput 0; }
         // Resizing panes
-        bind "H" { Resize "Increase Left"; }
-        bind "L" { Resize "Increase Right"; }
-        bind "K" { Resize "Increase Up"; }
-        bind "J" { Resize "Increase Down"; }
+        bind "h" { Resize "Increase Up"; }
+        bind "j" { Resize "Increase Down"; }
+        bind "k" { Resize "Increase Left"; }
+        bind "l" { Resize "Increase Right"; }
 
         // bind "o" { FocusNextPane; }
 
@@ -114,6 +114,12 @@ plugins {
         cwd "/"
     }
 }
+// Toggle between having pane frames around the panes
+// Options:
+//   - true (default)
+//   - false
+//
+pane_frames false
 
 // Choose what to do when zellij receives SIGTERM, SIGINT, SIGQUIT or SIGHUP
 // eg. when terminal window with an active zellij session is closed
@@ -138,13 +144,6 @@ plugins {
 // Choose the path to override cwd that zellij will use for opening new panes
 //
 // default_cwd ""
-
-// Toggle between having pane frames around the panes
-// Options:
-//   - true (default)
-//   - false
-//
-// pane_frames true
 
 // Toggle between having Zellij lay out panes according to a predefined set of layouts whenever possible
 // Options:
