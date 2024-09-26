@@ -38,6 +38,7 @@ if status is-interactive
 end
 
 alias t="tmux"
+alias z="zellij"
 alias ll="ls -alF"
 alias hs 'history --merge'  # read and merge history from disk
 # 安装nvm/node
