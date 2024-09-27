@@ -21,3 +21,4 @@
 .ssh/
 !.gdbinit
 !.env_variables
+!.bash_completion.d/

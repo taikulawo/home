@@ -83,7 +83,7 @@ keybinds clear-defaults=true {
         bind "Ctrl o" { SwitchToMode "Normal"; }
     }
     renametab {
-        bind "Ctrl b" { SwitchToMode "Normal"; }
+        bind "Ctrl a" { SwitchToMode "Normal"; }
         bind "Enter" { SwitchToMode "Normal"; }
         bind "Esc" { UndoRenameTab; SwitchToMode "Normal"; }
     }
@@ -110,6 +110,7 @@ plugins {
     welcome-screen location="zellij:session-manager" {
         welcome_screen true
     }
+    rename_session location="zellij:rename_session"
     filepicker location="zellij:strider" {
         cwd "/"
     }
