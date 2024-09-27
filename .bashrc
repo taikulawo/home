@@ -127,3 +127,4 @@ export NVM_DIR="$HOME/.nvm"
 for bcfile in ~/.bash_completion.d/* ; do
   . $bcfile
 done
+alias z="zellij"
