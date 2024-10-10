@@ -17,6 +17,8 @@
 !.cargo/
 .cargo/*
 !.cargo/config.toml
+!.cargo/env
+!.cargo/env.fish
 !.bash_setup.sh
 .ssh/
 !.gdbinit
