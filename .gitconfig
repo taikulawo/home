@@ -3,7 +3,7 @@
 [user]
 	# 写工作名和信息
 	name = wuweichao
-	email = wuweichao@xiaohongshu.comg
+	email = wuweichao@xiaohongshu.com
 [includeIf "hasconfig:remote.*.url:https://**github.com/**"]
     path = .gitconfig.github
 [includeIf "hasconfig:remote.*.url:git@github.com:**/**"]
