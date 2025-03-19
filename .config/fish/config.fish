@@ -73,10 +73,10 @@ function set_windows
 end
 
 function setproxy -d "set http proxy to"
-    set -g -x http_proxy http://127.0.0.1:$argv[1]
-    set -g -x https_proxy http://127.0.0.1:$argv[1]
-    set -g -x HTTP_PROXY http://127.0.0.1:$argv[1]
-    set -g -x HTTPS_PROXY http://127.0.0.1:$argv[1]
+    set -gx http_proxy http://127.0.0.1:$argv[1]
+    set -gx https_proxy http://127.0.0.1:$argv[1]
+    set -gx HTTP_PROXY http://127.0.0.1:$argv[1]
+    set -gx HTTPS_PROXY http://127.0.0.1:$argv[1]
 end
 
 function unsetproxy -d "unset http proxy"
@@ -91,7 +91,7 @@ end
 
 
 function set_macos
-    set -Ux BASH_SILENCE_DEPRECATION_WARNING 1
+    set -Ugx BASH_SILENCE_DEPRECATION_WARNING 1
     eval    (/opt/homebrew/bin/brew shellenv)
     set PATH /opt/homebrew/opt/make/libexec/gnubin $PATH 
 end
@@ -107,16 +107,18 @@ switch (uname)
         echo "At ~/.config/fish/config.fish, unknown os detected, assume Windows"
         set_windows
 end
-set PATH ~/.cargo/bin $PATH
-set PATH /usr/local/go/bin $PATH
-set GOROOT $HOME/go
-set GOPATH $GOROOT/src
-set PATH $GOROOT/bin $PATH
+set -Ugx PATH ~/.cargo/bin $PATH
+set -Ugx PATH /usr/local/go/bin $PATH
+set -Ugx GOROOT $HOME/go
+set -Ugx GOPATH $GOROOT/src
+set -Ugx PATH $GOROOT/bin $PATH
 
-set LC_CTYPE en_US.UTF-8
-set LC_ALL en_US.UTF-8
-set RUSTUP_DIST_SERVER https://rsproxy.cn
-set RUSTUP_UPDATE_ROOT https://rsproxy.cn/rustup
+# -g Sets a globally-scoped variable. Global variables are available to all functions running in the same shell.
+# -x export to child process.
+set -Ugx LC_CTYPE en_US.UTF-8
+set -Ugx LC_ALL en_US.UTF-8
+set -Ugx RUSTUP_DIST_SERVER https://rsproxy.cn
+set -Ugx RUSTUP_UPDATE_ROOT https://rsproxy.cn/rustup
 # 暂时关闭，等到找到 https://github.com/fish-shell/fish-shell/discussions/10545 的解决办法
 # function up-or-search -d "Depending on cursor position and current mode, either search backward or move up one line"
 #     # If we are already in search mode, continue
