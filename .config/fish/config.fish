@@ -117,8 +117,10 @@ set -Ux PATH $GOROOT/bin $PATH
 # -x export to child process.
 set -Ux LC_CTYPE en_US.UTF-8
 set -Ux LC_ALL en_US.UTF-8
-set -Ux RUSTUP_DIST_SERVER https://rsproxy.cn
-set -Ux RUSTUP_UPDATE_ROOT https://rsproxy.cn/rustup
+# rust mirror
+# set -Ux RUSTUP_DIST_SERVER https://rsproxy.cn
+# set -Ux RUSTUP_UPDATE_ROOT https://rsproxy.cn/rustup
+
 # 暂时关闭，等到找到 https://github.com/fish-shell/fish-shell/discussions/10545 的解决办法
 # function up-or-search -d "Depending on cursor position and current mode, either search backward or move up one line"
 #     # If we are already in search mode, continue

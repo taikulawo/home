@@ -1,5 +1,5 @@
-# [url "git@github.com:"]
-#         insteadOf = https://github.com/
+[url "git@github.com:"]
+        insteadOf = https://github.com/
 [user]
 	# 写工作名和信息
 	name = wuweichao
