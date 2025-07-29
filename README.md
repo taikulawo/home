@@ -1,6 +1,6 @@
 # home
 
-home全部配置文件
+home 全部配置文件
 
 ## 下载
 
@@ -17,6 +17,7 @@ git checkout -b master origin/master -ft
 git submodule update --remote --recursive --init
 chmod -R 700 .ssh/
 ```
+
 ### HTTPS clone
 
 ```bash
@@ -38,17 +39,24 @@ git init
 git config status.showUntrackedFiles no
 ```
 
+安装下面依赖
+
+```bash
+fzf
+```
+
 ## diff
 
 ```bash
 gitui
 ```
 
-或使用 .gitconfig 配置的alias
+或使用 .gitconfig 配置的 alias
 
 ```bash
 git diffhome
 ```
+
 ## 其他选项
 
 ### gitui
@@ -65,11 +73,25 @@ cargo install --git https://github.com/extrawurst/gitui
 brew install gitui
 ```
 
+### VIM
+
+安装插件
+
+```vim
+:PlugInstall
+```
+
+软链 vim 配置目录
+
+```bash
+ln ~/.config/vim ~/.vim
+```
+
 ## FAQ
 
 ### vim
 
-mac 自带的vim有问题，重新安装
+mac 自带的 vim 有问题，重新安装
 
 ```bash
 brew install vim
