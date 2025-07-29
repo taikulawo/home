@@ -97,6 +97,17 @@ mac 自带的 vim 有问题，重新安装
 brew install vim
 ```
 
+### SSH 断连
+
+将
+
+```
+ClientAliveInterval 300
+ClientAliveCountMax 3
+```
+
+添加到 `/etc/ssh/sshd_config`，再 `systemctl restart sshd`
+
 ### mac vscode ctrl + left arrow 失效解决
 
 禁用 settings=>keyboard=>function keys=>mission control=>mission control 全部快捷键
