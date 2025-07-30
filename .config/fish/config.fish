@@ -109,9 +109,6 @@ switch (uname)
 end
 set -Ux PATH ~/.cargo/bin $PATH
 set -Ux PATH /usr/local/go/bin $PATH
-set -Ux GOROOT $HOME/go
-set -Ux GOPATH $GOROOT/src
-set -Ux PATH $GOROOT/bin $PATH
 
 # -g Sets a globally-scoped variable. Global variables are available to all functions running in the same shell.
 # -x export to child process.
