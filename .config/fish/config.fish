@@ -54,8 +54,7 @@ if test -f ~/.xmake/profile
 end
 
 function set_linux
-    set PATH /usr/local/bin $PATH
-    set PATH ~/go/bin $PATH
+    set -Ux PATH /usr/local/bin $PATH
 end
 
 function set_windows
@@ -75,8 +74,9 @@ end
 
 function set_unix
     set -Ux PATH /usr/local/go/bin $PATH
+    set -Ux PATH ~/go/bin $PATH
     if test -d ~/.deno/bin
-        set PATH ~/.deno/bin $PATH
+        set -Ux PATH ~/.deno/bin $PATH
     end
 end
 
@@ -84,7 +84,7 @@ end
 function set_macos
     set -Ux BASH_SILENCE_DEPRECATION_WARNING 1
     eval    (/opt/homebrew/bin/brew shellenv)
-    set PATH /opt/homebrew/opt/make/libexec/gnubin $PATH 
+    set -Ux PATH /opt/homebrew/opt/make/libexec/gnubin $PATH 
 end
 
 switch (uname)
