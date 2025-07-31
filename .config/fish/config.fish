@@ -54,7 +54,7 @@ if test -f ~/.xmake/profile
 end
 
 function set_linux
-    set -Ux PATH /usr/local/bin $PATH
+    fish_add_path --path /usr/local/bin
 end
 
 function set_windows
@@ -73,10 +73,10 @@ function unsetproxy -d "unset http proxy"
 end
 
 function set_unix
-    set -Ux PATH /usr/local/go/bin $PATH
-    set -Ux PATH ~/go/bin $PATH
+    fish_add_path --path /usr/local/go/bin
+    fish_add_path --path ~/go/bin
     if test -d ~/.deno/bin
-        set -Ux PATH ~/.deno/bin $PATH
+        fish_add_path --path ~/.deno/bin
     end
 end
 
@@ -84,7 +84,7 @@ end
 function set_macos
     set -Ux BASH_SILENCE_DEPRECATION_WARNING 1
     eval    (/opt/homebrew/bin/brew shellenv)
-    set -Ux PATH /opt/homebrew/opt/make/libexec/gnubin $PATH 
+    fish_add_path --path /opt/homebrew/opt/make/libexec/gnubin
 end
 
 switch (uname)
@@ -98,69 +98,17 @@ switch (uname)
         echo "At ~/.config/fish/config.fish, unknown os detected, assume Windows"
         set_windows
 end
-set -Ux PATH ~/.cargo/bin $PATH
+fish_add_path --path ~/.cargo/bin
 
 
 # -g Sets a globally-scoped variable. Global variables are available to all functions running in the same shell.
 # -x export to child process.
 set -Ux LC_CTYPE en_US.UTF-8
 set -Ux LC_ALL en_US.UTF-8
+
 # rust mirror
 # set -Ux RUSTUP_DIST_SERVER https://rsproxy.cn
 # set -Ux RUSTUP_UPDATE_ROOT https://rsproxy.cn/rustup
-
-# 暂时关闭，等到找到 https://github.com/fish-shell/fish-shell/discussions/10545 的解决办法
-# function up-or-search -d "Depending on cursor position and current mode, either search backward or move up one line"
-#     # If we are already in search mode, continue
-#     if commandline --search-mode
-#         commandline -f history-search-backward
-#         return
-#     end
-
-#     # If we are navigating the pager, then up always navigates
-#     if commandline --paging-mode
-#         commandline -f up-line
-#         return
-#     end
-
-#     # We are not already in search mode.
-#     # If we are on the top line, start search mode,
-#     # otherwise move up
-#     set lineno (commandline -L)
-
-#     switch $lineno
-#         case 1
-#             commandline -f history-search-backward
-#             history merge # <-- ADDED THIS
-
-#         case '*'
-#             commandline -f up-line
-#     end
-# end
-
-# ~/.config/fish/config.fish
-
-# ----->>>>>sync history across fish session
-# 确保历史文件存在且可写入
-touch ~/.local/share/fish/fish_history
-
-# 定义一个函数来同步历史记录
-function _sync_history --on-event fish_postexec
-    # 强制当前 session 立即保存历史到文件
-    history --save
-
-    # 重新加载所有历史记录，包括其他 session 新写入的
-    history --clear
-    history --read
-end
-
-# 移除可能存在的旧的 _sync_history 事件处理，防止重复添加
-functions --erase _sync_history
-
-# 注册 _sync_history 函数到 fish_postexec 事件
-fish_add_path --path ~/.config/fish/functions # 确保 functions 目录在 PATH 中
-funcsave _sync_history # 将函数保存为 Fish function 文件，以便持久化
-# ----->>>>>sync history across fish session
 
 if type -q flamegraph
 flamegraph --completions fish > $fish_complete_path[1]/flamegraph.fish
