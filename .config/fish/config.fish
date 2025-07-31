@@ -1,7 +1,3 @@
-# if not set -q RUNNING and (not test (count $argv -gt 0) > /dev/null)
-#     exec sh ~/.env_variables "$(whereis -bq fish)"
-# end
-# set -e RUNNING
 if status is-interactive
     # Commands to run in interactive sessions can go here
     function fish_prompt --description 'Write out the prompt'
@@ -41,11 +37,6 @@ alias t="tmux"
 alias z="zellij"
 alias ll="ls -alF"
 alias hs 'history --merge'  # read and merge history from disk
-# 安装nvm/node
-set -l checknvm (nvm list lts)
-if test -n "$checknvm"
-    nvm use lts -s
-end
 
 function use_proxy
 end
@@ -64,12 +55,11 @@ end
 
 function set_linux
     set PATH /usr/local/bin $PATH
-    set PATH /usr/local/go/bin $PATH
     set PATH ~/go/bin $PATH
 end
 
 function set_windows
-    
+
 end
 
 function setproxy -d "set http proxy to"
@@ -84,6 +74,7 @@ function unsetproxy -d "unset http proxy"
 end
 
 function set_unix
+    set -Ux PATH /usr/local/go/bin $PATH
     if test -d ~/.deno/bin
         set PATH ~/.deno/bin $PATH
     end
@@ -108,7 +99,7 @@ switch (uname)
         set_windows
 end
 set -Ux PATH ~/.cargo/bin $PATH
-set -Ux PATH /usr/local/go/bin $PATH
+
 
 # -g Sets a globally-scoped variable. Global variables are available to all functions running in the same shell.
 # -x export to child process.
@@ -147,8 +138,30 @@ set -Ux LC_ALL en_US.UTF-8
 #     end
 # end
 
+# ~/.config/fish/config.fish
+
+# ----->>>>>sync history across fish session
+# 确保历史文件存在且可写入
+touch ~/.local/share/fish/fish_history
+
+# 定义一个函数来同步历史记录
+function _sync_history --on-event fish_postexec
+    # 强制当前 session 立即保存历史到文件
+    history --save
+
+    # 重新加载所有历史记录，包括其他 session 新写入的
+    history --clear
+    history --read
+end
+
+# 移除可能存在的旧的 _sync_history 事件处理，防止重复添加
+functions --erase _sync_history
+
+# 注册 _sync_history 函数到 fish_postexec 事件
+fish_add_path --path ~/.config/fish/functions # 确保 functions 目录在 PATH 中
+funcsave _sync_history # 将函数保存为 Fish function 文件，以便持久化
+# ----->>>>>sync history across fish session
+
 if type -q flamegraph
 flamegraph --completions fish > $fish_complete_path[1]/flamegraph.fish
 end
-
-# source ~/.env_variables
