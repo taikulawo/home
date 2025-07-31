@@ -1,13 +1,13 @@
 [url "git@github.com:"]
         insteadOf = https://github.com/
-[user]
-	# 写工作名和信息
-	name = wuweichao
-	email = wuweichao@xiaohongshu.com
 [includeIf "hasconfig:remote.*.url:https://**github.com/**"]
-    path = .gitconfig.github
+    path = .gitconfig.personal
 [includeIf "hasconfig:remote.*.url:git@github.com:**/**"]
-    path = .gitconfig.github
+    path = .gitconfig.personal
+[includeIf "hasconfig:remote.*.url:https://**github.com/kong**"]
+    path = .gitconfig.work
+[includeIf "hasconfig:remote.*.url:git@github.com:kong/**"]
+    path = .gitconfig.work
 [core]
 	editor = ~/.config/scripts/git-editor.sh
 	# editor = code --wait
