@@ -3,4 +3,7 @@
 # Linux 在 ～/.config/go/env
 # GOPRIVATE=code.devops.xiaohongshu.com
 GO111MODULE=on
-GOPROXY=https://goproxy.cn,direct
+
+GOPRIVATE=*.byted.org,*.everphoto.cn,git.smartisan.com
+GOPROXY=https://goproxy.byted.org|direct
+GOSUMDB=sum.golang.google.cn
