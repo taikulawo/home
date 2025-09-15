@@ -1,13 +1,18 @@
-[url "git@github.com:"]
-        insteadOf = https://github.com/
 [includeIf "hasconfig:remote.*.url:https://**github.com/**"]
     path = .gitconfig.personal
 [includeIf "hasconfig:remote.*.url:git@github.com:**/**"]
     path = .gitconfig.personal
+
 [includeIf "hasconfig:remote.*.url:https://**github.com/kong**"]
     path = .gitconfig.work
 [includeIf "hasconfig:remote.*.url:git@github.com:kong/**"]
     path = .gitconfig.work
+
+[includeIf "hasconfig:remote.*.url:https://code.byted.org/**"]
+    path = .gitconfig.work
+[includeIf "hasconfig:remote.*.url:git@code.byted.org:**/**"]
+    path = .gitconfig.work
+
 [core]
 	editor = ~/.config/scripts/git-editor.sh
 	# editor = code --wait
@@ -30,3 +35,13 @@
 	defaultBranch = master
 # [credential]
 # 	helper = store
+[url "git@github.com:"]
+        insteadOf = https://github.com/
+[url "gitr"]
+    insteadOf = git://git.byted.org/
+[credential "https://code.byted.org"]
+    username = wuweichao@bytedance.com
+[url "ssh://wuweichao@git.byted.org:29418"]
+    insteadOf = https://git.byted.org
+[url "git@code.byted.org:"]
+    insteadOf = https://code.byted.org/
