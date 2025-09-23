@@ -1,7 +1,6 @@
 # https://doc.rust-lang.org/cargo/reference/config.html#configuration
 [net]
-git-fetch-with-cli = true   # use the `git` executable for git operations
-
+git-fetch-with-cli = true # use the `git` executable for git operations
 
 
 [source.crates-io]
@@ -12,3 +11,8 @@ registry = "https://rsproxy.cn/crates.io-index"
 registry = "sparse+https://rsproxy.cn/index/"
 [registries.rsproxy]
 index = "https://rsproxy.cn/crates.io-index"
+# 内部源 crates-byted
+[source.crates-byted]
+registry = "sparse+https://rust.byted.org/repository/rust-byted/index/"
+[registries.crates-byted]
+index = "sparse+https://rust.byted.org/repository/rust-byted/index/"
