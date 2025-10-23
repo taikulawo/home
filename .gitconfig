@@ -1,3 +1,4 @@
+# includeIf Git 2.36
 [includeIf "hasconfig:remote.*.url:https://**github.com/**"]
     path = .gitconfig.personal
 [includeIf "hasconfig:remote.*.url:ssh://git@github.com/**"]
