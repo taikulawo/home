@@ -99,7 +99,7 @@ switch (uname)
         set_windows
 end
 fish_add_path --path ~/.cargo/bin
-
+fish_add_path --path $(go env GOPATH)/bin
 
 # -g Sets a globally-scoped variable. Global variables are available to all functions running in the same shell.
 # -x export to child process.
