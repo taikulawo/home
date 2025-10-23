@@ -1,15 +1,14 @@
 [includeIf "hasconfig:remote.*.url:https://**github.com/**"]
     path = .gitconfig.personal
+[includeIf "hasconfig:remote.*.url:ssh://git@github.com/**"]
+    path = .gitconfig.personal
 [includeIf "hasconfig:remote.*.url:git@github.com:**/**"]
     path = .gitconfig.personal
 
-[includeIf "hasconfig:remote.*.url:https://**github.com/kong**"]
-    path = .gitconfig.work
-[includeIf "hasconfig:remote.*.url:git@github.com:kong/**"]
-    path = .gitconfig.work
-
 [includeIf "hasconfig:remote.*.url:https://code.byted.org/**"]
     path = .gitconfig.work
+[includeIf "hasconfig:remote.*.url:ssh://git@code.byted.org/**"]
+    path = .gitconfig.personal
 [includeIf "hasconfig:remote.*.url:git@code.byted.org:**/**"]
     path = .gitconfig.work
 
