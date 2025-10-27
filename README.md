@@ -59,6 +59,14 @@ git diffhome
 
 ## 其他选项
 
+### nvm
+
+设置全局生效的 node 版本为 `v22.21.0`
+
+```bash
+set --universal nvm_default_version v22.21.0
+```
+
 ### gitui
 
 #### debian/ubuntu
