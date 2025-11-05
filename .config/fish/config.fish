@@ -33,14 +33,16 @@ if status is-interactive
     end
 end
 
-alias t="tmux"
-alias z="zellij"
-alias ll="ls -alF"
-alias hs 'history --merge'  # read and merge history from disk
+function call_on_windows
 
+end
+
+
+# 设置代理
 function use_proxy
 end
 
+# 删除http代理
 function unset_proxy
     set -e HTTP_PROXY
     set -e HTTPS_PROXY
@@ -48,18 +50,6 @@ function unset_proxy
     set -e https_proxy
 end
 
-# load xmake
-if test -f ~/.xmake/profile
-    source ~/.xmake/profile
-end
-
-function set_linux
-    fish_add_path --path /usr/local/bin
-end
-
-function set_windows
-
-end
 
 function setproxy -d "set http proxy to"
     set -gx http_proxy http://127.0.0.1:$argv[1]
@@ -72,7 +62,24 @@ function unsetproxy -d "unset http proxy"
     unset_proxy
 end
 
-function set_unix
+
+
+function set_path_on_all_platform
+    fish_add_path --path ~/.cargo/bin
+    fish_add_path --path $(go env GOPATH)/bin
+end
+
+function set_variable
+    # -g Sets a globally-scoped variable. Global variables are available to all functions running in the same shell.
+    # -x export to child process.
+    set -Ux LC_CTYPE en_US.UTF-8
+    set -Ux LC_ALL en_US.UTF-8
+
+    # rustup mirror
+    set -Ux RUSTUP_DIST_SERVER https://rsproxy.cn
+end
+
+function call_on_unix
     fish_add_path --path /usr/local/go/bin
     fish_add_path --path ~/go/bin
     if test -d ~/.deno/bin
@@ -80,36 +87,47 @@ function set_unix
     end
 end
 
+function call_on_linux
+    fish_add_path --path /usr/local/bin
+end
 
-function set_macos
+function call_on_macos
     set -Ux BASH_SILENCE_DEPRECATION_WARNING 1
     eval    (/opt/homebrew/bin/brew shellenv)
     fish_add_path --path /opt/homebrew/opt/make/libexec/gnubin
 end
 
+
+####################
+
+alias t="tmux"
+alias z="zellij"
+alias ll="ls -alF"
+alias hs 'history --merge'  # read and merge history from disk
+
+# load xmake
+if test -f ~/.xmake/profile
+    source ~/.xmake/profile
+end
+
 switch (uname)
     case Linux
-        set_linux
-        set_unix
+        call_on_linux
+        call_on_unix
     case Darwin
-        set_macos
-        set_unix
+        call_on_macos
+        call_on_unix
     case '*'
-        echo "At ~/.config/fish/config.fish, unknown os detected, assume Windows"
-        set_windows
+        echo "In ~/.config/fish/config.fish, unknown os detected, assume Windows"
+        call_on_windows
 end
-fish_add_path --path ~/.cargo/bin
-fish_add_path --path $(go env GOPATH)/bin
 
-# -g Sets a globally-scoped variable. Global variables are available to all functions running in the same shell.
-# -x export to child process.
-set -Ux LC_CTYPE en_US.UTF-8
-set -Ux LC_ALL en_US.UTF-8
-
-# rust mirror
-# set -Ux RUSTUP_DIST_SERVER https://rsproxy.cn
-# set -Ux RUSTUP_UPDATE_ROOT https://rsproxy.cn/rustup
+set_variable
+set_path_on_all_platform
 
 if type -q flamegraph
-flamegraph --completions fish > $fish_complete_path[1]/flamegraph.fish
+    flamegraph --completions fish > $fish_complete_path[1]/flamegraph.fish
 end
+
+
+

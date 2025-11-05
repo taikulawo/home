@@ -1,13 +1,34 @@
-complete -c flamegraph -s p -l pid -d 'Profile a running process by pid' -r
-complete -c flamegraph -l completions -d 'Generate shell completions for the given shell' -r -f -a "{bash	'',elvish	'',fish	'',powershell	'',zsh	''}"
+complete -c flamegraph -s p -l pid -d 'Profile a running process by pid (comma separated list)' -r
+complete -c flamegraph -l completions -d 'Generate shell completions for the given shell' -r -f -a "bash\t''
+elvish\t''
+fish\t''
+powershell\t''
+zsh\t''"
 complete -c flamegraph -s o -l output -d 'Output file' -r -F
 complete -c flamegraph -l root -d 'Run with root privileges (using `sudo`). Accepts an optional argument containing command line options which will be passed to sudo' -r
-complete -c flamegraph -s F -l freq -d 'Sampling frequency' -r
+complete -c flamegraph -s F -l freq -d 'Sampling frequency in Hz [default: 997]' -r
 complete -c flamegraph -s c -l cmd -d 'Custom command for invoking perf/dtrace' -r
+complete -c flamegraph -l title -d 'Set title text in SVG' -r
+complete -c flamegraph -l subtitle -d 'Set second level title text in SVG' -r
 complete -c flamegraph -l notes -d 'Set embedded notes in SVG' -r
 complete -c flamegraph -l min-width -d 'Omit functions smaller than <FLOAT> pixels' -r
 complete -c flamegraph -l image-width -d 'Image width in pixels' -r
-complete -c flamegraph -l palette -d 'Color palette' -r -f -a "{aqua	'',blue	'',green	'',hot	'',io	'',java	'',js	'',mem	'',orange	'',perl	'',python	'',purple	'',red	'',rust	'',wakeup	'',yellow	''}"
+complete -c flamegraph -l palette -d 'Color palette' -r -f -a "aqua\t''
+blue\t''
+green\t''
+hot\t''
+io\t''
+java\t''
+js\t''
+mem\t''
+orange\t''
+perl\t''
+python\t''
+purple\t''
+red\t''
+rust\t''
+wakeup\t''
+yellow\t''"
 complete -c flamegraph -l skip-after -d 'Cut off stack frames below <FUNCTION>; may be repeated' -r
 complete -c flamegraph -l post-process -d 'Run a command to process the folded stacks, taking the input from stdin and outputting to stdout' -r
 complete -c flamegraph -l perfdata -r -F
