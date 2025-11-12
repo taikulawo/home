@@ -76,7 +76,7 @@ function set_variable
     set -Ux LC_ALL en_US.UTF-8
 
     # rustup mirror
-    set -Ux RUSTUP_DIST_SERVER https://rsproxy.cn
+    set -Ux RUSTUP_DIST_SERVER https://cloudfront-static.rust-lang.org
 end
 
 function call_on_unix
