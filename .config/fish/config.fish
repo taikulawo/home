@@ -66,7 +66,9 @@ end
 
 function set_path_on_all_platform
     fish_add_path --path ~/.cargo/bin
-    fish_add_path --path $(go env GOPATH)/bin
+    if type -q go
+        fish_add_path --path (go env GOPATH)/bin
+    end
 end
 
 function set_variable
@@ -110,7 +112,7 @@ if test -f ~/.xmake/profile
     source ~/.xmake/profile
 end
 
-switch (uname)
+switch (/usr/bin/uname)
     case Linux
         call_on_linux
         call_on_unix
@@ -131,3 +133,6 @@ end
 
 
 
+
+# Added by coco installer
+fish_add_path ~/.local/bin
