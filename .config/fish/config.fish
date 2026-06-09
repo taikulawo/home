@@ -112,16 +112,20 @@ if test -f ~/.xmake/profile
     source ~/.xmake/profile
 end
 
-switch (/usr/bin/uname)
-    case Linux
-        call_on_linux
-        call_on_unix
-    case Darwin
-        call_on_macos
-        call_on_unix
-    case '*'
-        echo "In ~/.config/fish/config.fish, unknown os detected, assume Windows"
-        call_on_windows
+if type -q uname
+    switch (uname)
+        case Linux
+            call_on_linux
+            call_on_unix
+        case Darwin
+            call_on_macos
+            call_on_unix
+        case '*'
+            echo "In ~/.config/fish/config.fish, unknown os detected, assume Windows"
+            call_on_windows
+    end
+else
+    call_on_windows
 end
 
 set_variable
