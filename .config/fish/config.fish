@@ -85,6 +85,51 @@ function unsetproxy -d "unset http(s) proxy"
     set -e http_proxy https_proxy HTTP_PROXY HTTPS_PROXY
 end
 
+# 把某个已安装的 Node 版本设为所有 fish 的默认。
+# 原理：写入 universal 变量 nvm_default_version，conf.d/nvm.fish 在每个新 shell
+# 启动时会自动 `nvm use --silent $nvm_default_version`。
+#
+# 用法：
+#   nvm_set_default              # 用当前激活的版本作为默认
+#   nvm_set_default lts          # 别名
+#   nvm_set_default 20           # 任何 _nvm_version_match 能匹配的写法
+#   nvm_set_default v20.11.0
+#   nvm_set_default system       # 使用系统自带 node
+function nvm_set_default -d "Persist a default Node version across all fish shells"
+    if not type -q nvm
+        echo "nvm_set_default: nvm is not available" >&2
+        return 1
+    end
+
+    set -l ver $argv[1]
+    if not set -q ver[1]
+        if set -q nvm_current_version
+            set ver $nvm_current_version
+        else
+            echo "nvm_set_default: no version specified and no active node version" >&2
+            echo "usage: nvm_set_default <version>   # e.g. lts | 20 | v20.11.0 | system" >&2
+            return 1
+        end
+    end
+
+    # 解析并校验：必须是已安装的版本
+    set -l resolved
+    _nvm_list | string match --entire --regex -- (_nvm_version_match $ver) | read resolved __
+
+    if not set -q resolved[1]
+        echo "nvm_set_default: \"$ver\" is not installed; run `nvm install $ver` first" >&2
+        return 1
+    end
+
+    set -Ux nvm_default_version $resolved
+    echo "nvm_default_version = $resolved  (universal; new fish shells will auto-activate)"
+
+    # 当前 shell 立即生效
+    if test "$resolved" != "$nvm_current_version"
+        nvm use --silent $resolved
+    end
+end
+
 # -------- 7. 交互式专属 --------
 
 if status is-interactive
