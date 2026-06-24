@@ -14,3 +14,4 @@ fi
 # for bcfile in ~/.zsh_completion.d/* ; do
 #   . $bcfile
 # done
+export PATH=$HOME/.local/bin:$PATH

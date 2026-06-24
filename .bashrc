@@ -128,3 +128,4 @@ for bcfile in ~/.bash_completion.d/* ; do
   . $bcfile
 done
 alias z="zellij"
+export PATH=$HOME/.local/bin:$PATH

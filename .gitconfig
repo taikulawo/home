@@ -1,4 +1,13 @@
 # includeIf Git 2.36
+#
+# 已知坑: hasconfig:remote.*.url: 只有 C 版 git (>=2.36) 支持, libgit2 不支持。
+# 因此 gitui / 任何基于 libgit2 的工具在这些仓库里读不到 user.name / user.email,
+# 会报: git error:config value 'user.name' was not found; class=Config (7); code=NotFound (-3)
+# 而命令行 git config --get user.name 能拿到, 是因为走的是 C 版 git, 容易误以为已配好。
+# 复现: gitui -w $HOME -d $HOME/.git (即 `git diffhome` alias) 提交时报错。
+# 修复办法 (按需选, 当前未改):
+#   1) 在本文件顶层直接配 user.name / user.email (简单但会丢失 personal/work 身份切换);
+#   2) 改成 libgit2 也认的 [includeIf "gitdir:..."], 按仓库目录路径区分身份。
 [includeIf "hasconfig:remote.*.url:https://**github.com/**"]
     path = .gitconfig.personal
 [includeIf "hasconfig:remote.*.url:ssh://git@github.com/**"]

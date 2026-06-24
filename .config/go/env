@@ -4,6 +4,8 @@
 
 GO111MODULE=on
 
-GOPRIVATE=*.byted.org,*.everphoto.cn,git.smartisan.com
+GONOPROXY=gitlab.everphoto.cn,sysrepo.byted.org
+GONOSUMDB=*.byted.org
+GOPRIVATE=gitlab.everphoto.cn,sysrepo.byted.org
 GOPROXY=https://goproxy.byted.org|direct
 GOSUMDB=sum.golang.google.cn
