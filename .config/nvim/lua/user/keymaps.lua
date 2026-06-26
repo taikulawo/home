@@ -1,10 +1,19 @@
 local opts = { noremap = true, silent = true }
 
 local term_opts = { silent = true }
-local vscode_opts = { noremap = true, silent = true, desc = "VSCode-style shortcut" }
 
 -- Shorten function name
 local keymap = vim.keymap.set
+
+local function vscode_opts(desc)
+  return { noremap = true, silent = true, desc = "VS Code: " .. desc }
+end
+
+local function vscode_keymap(modes, keys, command, desc)
+  for _, key in ipairs(keys) do
+    keymap(modes, key, command, vscode_opts(desc))
+  end
+end
 
 --Remap space as leader key
 keymap("", "<Space>", "<Nop>", opts)
@@ -21,19 +30,21 @@ vim.g.maplocalleader = " "
 
 -- Normal --
 -- VSCode-style entry points
-keymap({ "n", "i", "v" }, "<C-s>", "<cmd>w<CR>", vscode_opts)
-keymap("n", "<C-p>", "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<CR>", vscode_opts)
-keymap("n", "<C-S-p>", "<cmd>Telescope commands<CR>", vscode_opts)
-keymap("n", "<C-f>", "<cmd>Telescope current_buffer_fuzzy_find<CR>", vscode_opts)
-keymap("n", "<C-S-f>", "<cmd>Telescope live_grep theme=ivy<CR>", vscode_opts)
-keymap("n", "<C-b>", "<cmd>NvimTreeToggle<CR>", vscode_opts)
-keymap("n", "<C-w>", "<cmd>Bdelete<CR>", vscode_opts)
-keymap("n", "<C-`>", "<cmd>ToggleTerm direction=float<CR>", vscode_opts)
-keymap("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<CR>", vscode_opts)
-keymap("n", "<F12>", "<cmd>lua vim.lsp.buf.definition()<CR>", vscode_opts)
-keymap("n", "<S-F12>", "<cmd>Telescope lsp_references<CR>", vscode_opts)
-keymap("n", "<A-F12>", "<cmd>lua vim.lsp.buf.hover()<CR>", vscode_opts)
-keymap("n", "<C-.>", "<cmd>lua vim.lsp.buf.code_action()<CR>", vscode_opts)
+vscode_keymap({ "n", "i", "v" }, { "<D-s>", "<C-s>" }, "<cmd>w<CR>", "save file")
+vscode_keymap("n", { "<D-p>", "<C-p>" }, "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<CR>", "quick open file")
+vscode_keymap("n", { "<D-S-p>", "<C-S-p>" }, "<cmd>Telescope commands<CR>", "command palette")
+vscode_keymap({ "n", "i", "v" }, { "<D-f>" }, "<cmd>Telescope current_buffer_fuzzy_find<CR>", "find in current file")
+vscode_keymap("n", { "<C-f>" }, "<cmd>Telescope current_buffer_fuzzy_find<CR>", "find in current file")
+vscode_keymap({ "n", "i", "v" }, { "<D-S-f>" }, "<cmd>Telescope live_grep theme=ivy<CR>", "search in workspace")
+vscode_keymap("n", { "<C-S-f>" }, "<cmd>Telescope live_grep theme=ivy<CR>", "search in workspace")
+vscode_keymap("n", { "<D-b>", "<C-b>" }, "<cmd>NvimTreeToggle<CR>", "toggle explorer")
+vscode_keymap("n", { "<D-w>", "<C-w>" }, "<cmd>Bdelete<CR>", "close editor")
+vscode_keymap("n", { "<D-`>", "<C-`>" }, "<cmd>ToggleTerm direction=float<CR>", "toggle terminal")
+vscode_keymap("n", { "<F2>" }, "<cmd>lua vim.lsp.buf.rename()<CR>", "rename symbol")
+vscode_keymap("n", { "<F12>" }, "<cmd>lua vim.lsp.buf.definition()<CR>", "go to definition")
+vscode_keymap("n", { "<S-F12>" }, "<cmd>Telescope lsp_references<CR>", "find references")
+vscode_keymap("n", { "<A-F12>" }, "<cmd>lua vim.lsp.buf.hover()<CR>", "show hover")
+vscode_keymap("n", { "<D-.>", "<C-.>" }, "<cmd>lua vim.lsp.buf.code_action()<CR>", "code action")
 keymap("n", "<leader><leader>", "<cmd>Telescope commands<CR>", opts)
 keymap("n", "<leader>/", "<cmd>Telescope live_grep theme=ivy<CR>", opts)
 keymap("n", "<leader>?", "<cmd>Telescope keymaps<CR>", opts)

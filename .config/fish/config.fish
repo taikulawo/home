@@ -25,7 +25,7 @@ function __setup_env_common
 end
 
 function __setup_env_unix
-    set -gx EDITOR vim
+    set -gx EDITOR nvim
 end
 
 function __setup_env_linux
