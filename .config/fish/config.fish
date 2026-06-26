@@ -2,7 +2,7 @@
 #
 # 组织方式（自上而下）：
 #   1. 内部小工具
-#   2. 环境变量（locale、镜像等）
+#   2. 环境变量：通用 / 平台相关
 #   3. PATH：通用 / 平台相关
 #   4. 平台分发
 #   5. 第三方集成（xmake、coco …）
@@ -15,11 +15,24 @@ function __add_path_if_exists --argument-names dir
     test -n "$dir"; and test -d $dir; and fish_add_path --path $dir
 end
 
-# -------- 2. 环境变量（幂等） --------
+# -------- 2. 环境变量设置 --------
 
-set -q LC_CTYPE; or set -gx LC_CTYPE en_US.UTF-8
-set -q LC_ALL;   or set -gx LC_ALL   en_US.UTF-8
-set -q RUSTUP_DIST_SERVER; or set -gx RUSTUP_DIST_SERVER https://cloudfront-static.rust-lang.org
+function __setup_env_common
+    set -q LC_CTYPE; or set -gx LC_CTYPE en_US.UTF-8
+    set -q LC_ALL;   or set -gx LC_ALL   en_US.UTF-8
+    set -q RUSTUP_DIST_SERVER; or set -gx RUSTUP_DIST_SERVER https://cloudfront-static.rust-lang.org
+end
+
+function __setup_env_unix
+    set -gx EDITOR vim
+end
+
+function __setup_env_linux
+end
+
+function __setup_env_macos
+    set -q BASH_SILENCE_DEPRECATION_WARNING; or set -gx BASH_SILENCE_DEPRECATION_WARNING 1
+end
 
 # -------- 3. PATH 设置 --------
 
@@ -42,7 +55,6 @@ function __setup_path_linux
 end
 
 function __setup_path_macos
-    set -q BASH_SILENCE_DEPRECATION_WARNING; or set -gx BASH_SILENCE_DEPRECATION_WARNING 1
     if test -x /opt/homebrew/bin/brew
         eval (/opt/homebrew/bin/brew shellenv)
     end
@@ -53,14 +65,19 @@ end
 
 switch (uname)
     case Linux
+        __setup_env_linux
+        __setup_env_unix
         __setup_path_linux
         __setup_path_unix
     case Darwin
+        __setup_env_macos
+        __setup_env_unix
         __setup_path_macos
         __setup_path_unix
     case '*'
         # Windows / 未知平台：当前没有特殊处理
 end
+__setup_env_common
 __setup_path_common
 
 # -------- 5. 第三方集成 --------
@@ -112,12 +129,13 @@ function nvm_set_default -d "Persist a default Node version across all fish shel
         end
     end
 
-    # 解析并校验：必须是已安装的版本
+    # 解析并校验：以 `nvm ls` 为准，存在即可设为默认
     set -l resolved
     _nvm_list | string match --entire --regex -- (_nvm_version_match $ver) | read resolved __
 
     if not set -q resolved[1]
-        echo "nvm_set_default: \"$ver\" is not installed; run `nvm install $ver` first" >&2
+        echo "nvm_set_default: \"$ver\" is not installed (checked via nvm ls)" >&2
+        echo "  run: nvm install $ver" >&2
         return 1
     end
 
@@ -141,6 +159,27 @@ if status is-interactive
     alias z='zellij'
     alias ll='ls -alF'
     alias hs='history --merge'
+
+    # 重载 fish（替换当前进程，重新读 config.fish）
+    abbr -a r 'exec fish'
+
+    # 强制对齐 nvm_default_version：
+    # conf.d/nvm.fish 自带的自动激活在 nvm_current_version 已被父进程
+    # 环境继承时不会触发，导致新 shell 仍用旧版本。这里兜底纠正。
+    if type -q nvm; and set -q nvm_default_version
+        if test "$nvm_current_version" != "$nvm_default_version"
+            nvm use --silent $nvm_default_version
+        end
+    end
+
+    # 当 nvm_default_version 被任何 fish 改写（universal 变量会同步到所有正在跑的
+    # fish），各个已存在的交互式 shell 也跟着切到新版本，免得需要 `exec fish`。
+    function __nvm_sync_default --on-variable nvm_default_version
+        type -q nvm; or return
+        set -q nvm_default_version; or return
+        test "$nvm_current_version" = "$nvm_default_version"; and return
+        nvm use --silent $nvm_default_version
+    end
 
     # 自定义 prompt
     function fish_prompt --description 'Write out the prompt'
