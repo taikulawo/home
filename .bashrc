@@ -2,6 +2,8 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+[ -r "$HOME/.config/fish/import-fish-env.sh" ] && . "$HOME/.config/fish/import-fish-env.sh"
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -111,21 +113,9 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-if [ -f "$HOME/.cargo/env" ]; then
-    . "$HOME/.cargo/env"
-fi
-
-export PATH=~/.cargo/bin/:$PATH
-
-. ~/.bash_setup.sh
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 for bcfile in ~/.bash_completion.d/* ; do
   . $bcfile
 done
 alias z="zellij"
-export PATH=$HOME/.local/bin:$PATH

@@ -21,6 +21,7 @@ function __setup_env_common
     set -q LC_CTYPE; or set -gx LC_CTYPE en_US.UTF-8
     set -q LC_ALL;   or set -gx LC_ALL   en_US.UTF-8
     set -q RUSTUP_DIST_SERVER; or set -gx RUSTUP_DIST_SERVER https://cloudfront-static.rust-lang.org
+    set -e TMOUT
 end
 
 function __setup_env_unix
