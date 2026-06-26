@@ -1,57 +1,85 @@
-" 不自动安装插件，有些网络环境clone很慢
-" 进入vim 运行 :PlugInstall 手动安装
-" let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-" if empty(glob(data_dir . '/autoload/plug.vim'))
-"   silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-"   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-" endif
+set nocompatible
+filetype plugin indent on
+syntax enable
+
+let mapleader = " "
+let maplocalleader = " "
 
 set number
-call plug#begin()
-" The default plugin directory will be as follows:
-"   - Vim (Linux/macOS): '~/.vim/plugged'
-"   - Vim (Windows): '~/vimfiles/plugged'
-"   - Neovim (Linux/macOS/Windows): stdpath('data') . '/plugged'
-" You can specify a custom plugin directory by passing it as the argument
-"   - e.g. `call plug#begin('~/.vim/plugged')`
-"   - Avoid using standard Vim directory names like 'plugin'
+set cursorline
+set mouse=a
+if has('clipboard')
+  set clipboard=unnamedplus
+endif
+set hidden
+set confirm
+set updatetime=300
+set timeoutlen=300
+set wildmenu
+set wildmode=longest:full,full
+set completeopt=menuone,noinsert,noselect
 
-" Make sure you use single quotes
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
 
-" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
-Plug 'junegunn/vim-easy-align'
+set expandtab
+set shiftwidth=2
+set tabstop=2
+set smartindent
 
-" Any valid git URL is allowed
-Plug 'https://github.com/junegunn/vim-github-dashboard.git'
+set splitbelow
+set splitright
+set wrap
+set linebreak
+set breakindent
+set scrolloff=8
+set sidescrolloff=8
 
-" Multiple Plug commands can be written in a single line using | separators
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+set undofile
+set noswapfile
+set nobackup
+set nowritebackup
 
-" On-demand loading
-Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+" VSCode-style shortcuts for the built-in Vim experience.
+nnoremap <silent> <C-s> :write<CR>
+inoremap <silent> <C-s> <Esc>:write<CR>a
+vnoremap <silent> <C-s> <Esc>:write<CR>gv
 
-" Using a non-default branch
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+nnoremap <silent> <C-b> :Lexplore<CR>
+nnoremap <silent> <C-f> /
+nnoremap <silent> <C-w> :bdelete<CR>
+nnoremap <silent> <Tab> :bnext<CR>
+nnoremap <silent> <S-Tab> :bprevious<CR>
+nnoremap <silent> <leader>w :write<CR>
+nnoremap <silent> <leader>q :quit<CR>
+nnoremap <silent> <leader>h :nohlsearch<CR>
+nnoremap <silent> <leader>e :Lexplore<CR>
+nnoremap <silent> <leader>r :oldfiles<CR>
 
-" Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
-" vim-go require vim 8.1.2269 above, install/compile a higher version if you
-" want to use
-"
-" Plug 'fatih/vim-go', { 'tag': '*' }
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
-" Plugin options
-Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
+vnoremap < <gv
+vnoremap > >gv
+vnoremap <A-j> :move '>+1<CR>gv=gv
+vnoremap <A-k> :move '<-2<CR>gv=gv
+nnoremap <A-j> :move .+1<CR>==
+nnoremap <A-k> :move .-2<CR>==
 
-" Plugin outside ~/.vim/plugged with post-update hook
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
 
-" Unmanaged plugin (manually installed and updated)
-Plug '~/my-prototype-plugin'
-
-" Initialize plugin system
-" - Automatically executes `filetype plugin indent on` and `syntax enable`.
-call plug#end()
-" You can revert the settings after the call like so:
-"   filetype indent off   " Disable file-type-specific indentation
-"   syntax off            " Disable syntax highlighting
+augroup user_vscode_like_vim
+  autocmd!
+  if exists('##TextYankPost')
+    autocmd TextYankPost * silent! call timer_start(120, {-> execute('silent! nohlsearch')})
+  endif
+  autocmd FileType help,qf,man nnoremap <silent> <buffer> q :close<CR>
+augroup END

@@ -4,8 +4,11 @@ local options = {
   cmdheight = 2,                           -- more space in the neovim command line for displaying messages
   completeopt = { "menuone", "noselect" }, -- mostly just for cmp
   conceallevel = 0,                        -- so that `` is visible in markdown files
+  confirm = true,                          -- ask before quitting with unsaved changes
   fileencoding = "utf-8",                  -- the encoding written to a file
   hlsearch = true,                         -- highlight all matches on previous search pattern
+  inccommand = "split",                    -- preview substitutions before applying them
+  incsearch = true,                        -- show search matches while typing
   ignorecase = true,                       -- ignore case in search patterns
   mouse = "a",                             -- allow the mouse to be used in neovim
   pumheight = 10,                          -- pop up menu height
@@ -32,6 +35,7 @@ local options = {
   signcolumn = "yes",                      -- always show the sign column, otherwise it would shift the text each time
   wrap = true,                             -- display lines as one long line
   linebreak = true,                        -- companion to wrap, don't split words
+  breakindent = true,                      -- keep wrapped lines aligned with their indent
   scrolloff = 8,                           -- minimal number of screen lines to keep above and below the cursor
   sidescrolloff = 8,                       -- minimal number of screen columns either side of cursor if wrap is `false`
   guifont = "monospace:h17",               -- the font used in graphical neovim applications
@@ -47,4 +51,4 @@ vim.opt.shortmess:append "c"                           -- don't give |ins-comple
 vim.opt.iskeyword:append "-"                           -- hyphenated words recognized by searches
 vim.opt.formatoptions:remove({ "c", "r", "o" })        -- don't insert the current comment leader automatically for auto-wrapping comments using 'textwidth', hitting <Enter> in insert mode, or hitting 'o' or 'O' in normal mode.
 vim.opt.runtimepath:remove("/usr/share/vim/vimfiles")  -- separate vim plugins from neovim in case vim still in use
-
+vim.opt.fillchars:append({ eob = " " })                 -- hide tildes past the end of the buffer

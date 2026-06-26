@@ -1,6 +1,7 @@
 local opts = { noremap = true, silent = true }
 
 local term_opts = { silent = true }
+local vscode_opts = { noremap = true, silent = true, desc = "VSCode-style shortcut" }
 
 -- Shorten function name
 local keymap = vim.keymap.set
@@ -19,6 +20,26 @@ vim.g.maplocalleader = " "
 --   command_mode = "c",
 
 -- Normal --
+-- VSCode-style entry points
+keymap({ "n", "i", "v" }, "<C-s>", "<cmd>w<CR>", vscode_opts)
+keymap("n", "<C-p>", "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<CR>", vscode_opts)
+keymap("n", "<C-S-p>", "<cmd>Telescope commands<CR>", vscode_opts)
+keymap("n", "<C-f>", "<cmd>Telescope current_buffer_fuzzy_find<CR>", vscode_opts)
+keymap("n", "<C-S-f>", "<cmd>Telescope live_grep theme=ivy<CR>", vscode_opts)
+keymap("n", "<C-b>", "<cmd>NvimTreeToggle<CR>", vscode_opts)
+keymap("n", "<C-w>", "<cmd>Bdelete<CR>", vscode_opts)
+keymap("n", "<C-`>", "<cmd>ToggleTerm direction=float<CR>", vscode_opts)
+keymap("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<CR>", vscode_opts)
+keymap("n", "<F12>", "<cmd>lua vim.lsp.buf.definition()<CR>", vscode_opts)
+keymap("n", "<S-F12>", "<cmd>Telescope lsp_references<CR>", vscode_opts)
+keymap("n", "<A-F12>", "<cmd>lua vim.lsp.buf.hover()<CR>", vscode_opts)
+keymap("n", "<C-.>", "<cmd>lua vim.lsp.buf.code_action()<CR>", vscode_opts)
+keymap("n", "<leader><leader>", "<cmd>Telescope commands<CR>", opts)
+keymap("n", "<leader>/", "<cmd>Telescope live_grep theme=ivy<CR>", opts)
+keymap("n", "<leader>?", "<cmd>Telescope keymaps<CR>", opts)
+keymap("n", "<leader>r", "<cmd>Telescope oldfiles<CR>", opts)
+keymap("n", "<leader>x", "<cmd>Telescope diagnostics<CR>", opts)
+
 -- Better window navigation
 keymap("n", "<C-h>", "<C-w>h", opts)
 keymap("n", "<C-j>", "<C-w>j", opts)
@@ -34,6 +55,8 @@ keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 -- Navigate buffers
 keymap("n", "<S-l>", ":bnext<CR>", opts)
 keymap("n", "<S-h>", ":bprevious<CR>", opts)
+keymap("n", "<Tab>", ":bnext<CR>", opts)
+keymap("n", "<S-Tab>", ":bprevious<CR>", opts)
 
 -- Move text up and down
 keymap("n", "<A-j>", ":m .+1<CR>==", opts)
@@ -67,4 +90,3 @@ keymap("x", "<A-k>", ":m '<-2<CR>gv=gv", opts)
 -- keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
 -- keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 -- keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
-

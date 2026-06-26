@@ -162,6 +162,10 @@ default_layout "compact"
 //   - false
 // 
 mouse_mode true
+
+// Keep normal mouse support, but disable advanced Ctrl+mouse actions such as
+// resizing panes with Ctrl+scroll.
+advanced_mouse_actions false
  
 // Toggle having pane frames around the panes
 // Options:
@@ -364,7 +368,6 @@ show_startup_tips false
 // Default: 8082
 // (Requires restart)
 // web_server_port 8082
-advanced_mouse_actions false
 // A command to run (will be wrapped with sh -c and provided the RESURRECT_COMMAND env variable) 
 // after Zellij attempts to discover a command inside a pane when resurrecting sessions, the STDOUT
 // of this command will be used instead of the discovered RESURRECT_COMMAND

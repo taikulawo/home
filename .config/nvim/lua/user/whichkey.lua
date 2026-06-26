@@ -3,6 +3,13 @@ if not status_ok then
   return
 end
 
+local icons_status_ok, icons = pcall(require, "which-key.icons")
+if icons_status_ok then
+  icons.providers = vim.tbl_filter(function(provider)
+    return provider.name ~= "mini.icons"
+  end, icons.providers)
+end
+
 local setup = {
   plugins = {
     marks = true, -- shows a list of your marks on ' and `
@@ -37,6 +44,7 @@ local setup = {
     breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
     separator = "➜", -- symbol used between a key and it's label
     group = "+", -- symbol prepended to a group
+    mappings = false,
   },
   popup_mappings = {
     scroll_down = "<c-d>", -- binding to scroll down inside the popup
