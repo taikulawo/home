@@ -149,6 +149,20 @@ function nvm_set_default -d "Persist a default Node version across all fish shel
     end
 end
 
+# z: 无参数时 auto-attach 到已有会话（没有则新建）；有参数则原样透传给 zellij
+# 例：z / z delete-session foo / z list-sessions / z options ...
+function z --wraps zellij --description 'zellij with auto-attach when called with no args'
+    if test (count $argv) -eq 0
+        set -l existing (zellij list-sessions -sn 2>/dev/null)
+        if set -q existing[1]
+            zellij attach $existing[1]
+        else
+            zellij
+        end
+    else
+        zellij $argv
+    end
+end
 # -------- 7. 交互式专属 --------
 
 if status is-interactive
@@ -157,10 +171,8 @@ if status is-interactive
 
     # aliases
     alias t='tmux'
-    alias z='zellij'
     alias ll='ls -alF'
     alias hs='history --merge'
-
     # 重载 fish（替换当前进程，重新读 config.fish）
     abbr -a r 'exec fish'
 
