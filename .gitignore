@@ -14,6 +14,17 @@
 !README.md
 !.bashrc
 !.npmrc
+!.codex/
+.codex/*
+!.codex/config.toml
+!.codex/hooks.json
+!.codex/agents/
+.codex/agents/*
+!.codex/agents/*.toml
+!.codex/skills/
+!.codex/skills/**
+.codex/skills/.system/
+.codex/skills/.system/**
 !.cargo/
 .cargo/*
 !.cargo/config.toml

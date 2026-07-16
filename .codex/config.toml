@@ -1,0 +1,26 @@
+instructions = """
+默认编码工作流：
+
+- 对非平凡开发任务，默认使用 developer 和 reviewer 两个子 agent 协作。
+- 要求 developer agent 先检查相关代码，再实现变更；必要时补充或更新聚焦测试，并汇报修改文件与验证命令。
+- 要求 reviewer agent 从正确性、回归风险、边界条件、可维护性和缺失测试角度审查 developer 的变更。reviewer 应优先给出带文件和行号的具体问题。
+- 将 reviewer 的审查意见发回 developer agent。developer 必须基于技术价值和用户意图选择性采纳反馈，并说明哪些意见已采纳、哪些拒绝以及原因。
+- 主 agent 负责最终集成、冲突处理、验证和面向用户的总结。developer 或 reviewer 仍有待处理工作时，不要把流程悬空。
+- 对很小的改动，可以直接执行，但最终回复前仍要按同样标准自查。
+"""
+
+[features.multi_agent_v2]
+enabled = true
+max_concurrent_threads_per_session = 3
+
+[agents]
+max_depth = 5
+job_max_runtime_seconds = 1800
+
+[agents.developer]
+description = "实现类 agent，负责编码、缺陷修复、测试和聚焦重构。"
+config_file = "./agents/developer.toml"
+
+[agents.reviewer]
+description = "审查类 agent，关注正确性、回归风险、边界条件、可维护性和缺失测试。"
+config_file = "./agents/reviewer.toml"

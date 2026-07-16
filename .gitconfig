@@ -18,7 +18,7 @@
 [includeIf "hasconfig:remote.*.url:https://code.byted.org/**"]
     path = .gitconfig.work
 [includeIf "hasconfig:remote.*.url:ssh://git@code.byted.org/**"]
-    path = .gitconfig.personal
+    path = .gitconfig.work
 [includeIf "hasconfig:remote.*.url:git@code.byted.org:**/**"]
     path = .gitconfig.work
 
