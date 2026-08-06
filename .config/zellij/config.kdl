@@ -166,6 +166,9 @@ mouse_mode true
 // Keep normal mouse support, but disable advanced Ctrl+mouse actions such as
 // resizing panes with Ctrl+scroll.
 advanced_mouse_actions false
+
+// Disable the hover hint on pane borders ("Ctrl <MouseScroll> or <drag borders> to resize").
+mouse_hover_effects false
  
 // Toggle having pane frames around the panes
 // Options:
