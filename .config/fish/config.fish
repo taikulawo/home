@@ -149,25 +149,52 @@ function nvm_set_default -d "Persist a default Node version across all fish shel
     end
 end
 
-# z: 无参数时 auto-attach 到已有会话（没有则新建）；有参数则原样透传给 zellij
-# 例：z / z delete-session foo / z list-sessions / z options ...
-function z --wraps zellij --description 'zellij with auto-attach when called with no args'
-    if test (count $argv) -eq 0
-        set -l existing (zellij list-sessions -sn 2>/dev/null)
-        if set -q existing[1]
-            zellij attach $existing[1]
-        else
-            zellij
-        end
-    else
+# z: 无参数时智能连接（0 个会话则新建；1 个自动 attach；多个列出选择）
+#    带参数则原样透传给 zellij（例：z ls / z -s work2 / z attach foo）
+function z --wraps zellij --description 'zellij smart attach (no args), else passthrough'
+    if test (count $argv) -gt 0
         zellij $argv
+        return
     end
+    set -l sessions (zellij list-sessions -n 2>/dev/null | string match -v '*EXITED*' | string split -f1 ' ')
+    switch (count $sessions)
+        case 0
+            zellij
+        case 1
+            zellij attach $sessions[1]
+        case '*'
+            echo "存在多个 zellij 会话，请选择要连接的会话："
+            for i in (seq (count $sessions))
+                printf "  %d) %s\n" $i $sessions[$i]
+            end
+            read -l -P "输入编号 (回车取消): " choice
+            if string match -qr '^[0-9]+$' -- $choice; and test $choice -ge 1 -a $choice -le (count $sessions)
+                zellij attach $sessions[$choice]
+            else
+                echo "已取消。"
+            end
+    end
+end
+
+# zz: 走 zellij 原本逻辑（默认新建会话），所有参数原样透传
+# 例：zz / zz -s work2 / zz list-sessions / zz attach foo ...
+function zz --wraps zellij --description 'zellij (native behaviour, defaults to new session)'
+    zellij $argv
 end
 # -------- 7. 交互式专属 --------
 
 if status is-interactive
     # 关闭欢迎语（universal，只写一次）
     set -q fish_greeting; or set -U fish_greeting
+
+    # 关闭 Alacritty 在 macOS 上的 Dock 跳动：
+    # 终端响铃(BEL)时，Alacritty 默认对未聚焦窗口发出紧急提示(urgency hint)，
+    # 在 macOS 上表现为 Dock 图标持续跳动。任务结束时程序常输出 BEL，故频繁跳动。
+    # 复位私有模式 1042(bellIsUrgent) 即可关闭；alacritty.toml 无对应开关，
+    # 只能靠该转义序列。仅在 Alacritty 下生效，其它终端会忽略此设置。
+    if set -q ALACRITTY_WINDOW_ID
+        printf '\e[?1042l'
+    end
 
     # aliases
     alias t='tmux'

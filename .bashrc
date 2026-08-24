@@ -118,4 +118,43 @@ fi
 for bcfile in ~/.bash_completion.d/* ; do
   . $bcfile
 done
-alias z="zellij"
+# zellij:
+#   `z`（无参数）  -> 智能连接：0 个会话则新建；1 个自动 attach；多个列出选择
+#   `z <参数>`     -> 原样透传给 zellij（例：z ls / z -s work2 / z attach foo）
+#   `zz`           -> zellij 原生逻辑（默认新建会话），参数原样透传
+z() {
+  # 带参数则直接透传
+  if [ "$#" -gt 0 ]; then
+    command zellij "$@"
+    return
+  fi
+  # 无参数：根据存活会话数量决定行为
+  local -a sessions
+  mapfile -t sessions < <(command zellij list-sessions -n 2>/dev/null | grep -v 'EXITED' | awk '{print $1}')
+  case ${#sessions[@]} in
+    0)
+      command zellij
+      ;;
+    1)
+      command zellij attach "${sessions[0]}"
+      ;;
+    *)
+      echo "存在多个 zellij 会话，请选择要连接的会话："
+      local i
+      for i in "${!sessions[@]}"; do
+        printf "  %d) %s\n" "$((i + 1))" "${sessions[$i]}"
+      done
+      local choice
+      read -rp "输入编号 (回车取消): " choice
+      if [[ "$choice" =~ ^[0-9]+$ ]] && ((choice >= 1 && choice <= ${#sessions[@]})); then
+        command zellij attach "${sessions[$((choice - 1))]}"
+      else
+        echo "已取消。"
+      fi
+      ;;
+  esac
+}
+
+zz() {
+  command zellij "$@"
+}
