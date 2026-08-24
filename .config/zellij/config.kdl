@@ -161,7 +161,7 @@ default_layout "q"
 //   - true (default)
 //   - false
 // 
-mouse_mode false
+mouse_mode true
 
 // Keep normal mouse support, but disable advanced Ctrl+mouse actions such as
 // resizing panes with Ctrl+scroll.
@@ -176,6 +176,7 @@ mouse_hover_effects false
 //   - false
 // 
 pane_frames true
+pane_frame_style "full"
  
 // When attaching to an existing session with other users,
 // should the session be mirrored (true)
@@ -346,7 +347,7 @@ scroll_buffer_size 20000
 // Whether to stack panes when resizing beyond a certain size
 // Default: true
 // 
-// stacked_resize false
+stacked_resize false
  
 // Whether to show tips on startup
 // Default: true
