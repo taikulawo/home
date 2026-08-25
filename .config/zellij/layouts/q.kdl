@@ -1,4 +1,7 @@
 layout {
+    pane size=1 borderless=true {
+        plugin location="zellij:compact-bar"
+    }
     pane split_direction="horizontal" {
         pane split_direction="vertical" {
             pane
@@ -8,8 +11,5 @@ layout {
             pane
             pane
         }
-    }
-    pane size=1 borderless=true {
-        plugin location="zellij:compact-bar"
     }
 }
