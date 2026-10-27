@@ -27,6 +27,7 @@
 	# editor = code --wait
 	autocrlf = input
 	eol = lf
+	hooksPath = /root/.config/git/hooks
 [alias]
 	diffhome = !gitui -w $HOME -d $HOME/.git
 	dlog = !git log --all --oneline --stat --graph --decorate

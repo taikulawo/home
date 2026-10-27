@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+# Append a Co-authored-by trailer to every commit message.
+# Skips when the trailer is already present (e.g. amend, rebase, cherry-pick).
+
+set -eu
+
+COMMIT_MSG_FILE="$1"
+COMMIT_SOURCE="${2:-}"
+
+TRAILER="Co-authored-by: TRAE CLI <traecli@bytedance.com>"
+
+case "$COMMIT_SOURCE" in
+    merge)
+        exit 0
+        ;;
+esac
+
+if grep -qxF "$TRAILER" "$COMMIT_MSG_FILE"; then
+    exit 0
+fi
+
+python3 - "$COMMIT_MSG_FILE" "$TRAILER" <<'PY'
+import sys, pathlib
+
+path = pathlib.Path(sys.argv[1])
+trailer = sys.argv[2]
+text = path.read_text()
+
+lines = text.splitlines()
+body = []
+comments = []
+for line in lines:
+    if line.startswith('#'):
+        comments.append(line)
+    else:
+        body.append(line)
+
+while body and body[-1].strip() == '':
+    body.pop()
+
+if body:
+    body.append('')
+    body.append(trailer)
+else:
+    body = [trailer]
+
+result = '\n'.join(body)
+if comments:
+    result += '\n' + '\n'.join(comments)
+if not result.endswith('\n'):
+    result += '\n'
+
+path.write_text(result)
+PY

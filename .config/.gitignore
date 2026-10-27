@@ -9,6 +9,7 @@
 !zellij
 !herdr
 !nvim
+!git/
 nvim/.netrwhist
 !go/
 go/*
