@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# Append a Co-authored-by trailer to every commit message.
-# Skips when the trailer is already present (e.g. amend, rebase, cherry-pick).
 
 set -eu
 
